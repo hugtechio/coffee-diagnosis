@@ -103,17 +103,15 @@ const UnhandledIntent = {
   },
 };
 
-const DiagnosisRequestIntent = {
+const CoffeeRequestIntent = {
   canHandle(handlerInput) {
     return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest' 
       && Alexa.getIntentName(handlerInput.requestEnvelope) === 'DiagnosisRequestIntent'
-
-      // coffeeを頼んでない状態
-      && !session.diagnosisAttributes[INDEX.coffee]
+      // coffeeを頼んでいない
   },
   async handle(handlerInput) {
     session.diagnosisAttributes = getSynonymValues(handlerInput, ['coffee', 'withMilk', 'withSugar'])
-    return talk.diagnosisRequest(handlerInput.responseBuilder, session.diagnosisAttributes)
+    return talk.coffeeRequestIntent(handlerInput.responseBuilder, session.diagnosisAttributes)
   }
 };
 
@@ -121,7 +119,7 @@ const MilkAndSugarRequestIntent = {
   canHandle(handlerInput) {
     return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest' 
       && Alexa.getIntentName(handlerInput.requestEnvelope) === 'MilkAndSugarRequestIntent'
-      && session.diagnosisAttributes[INDEX.coffee]
+      // コーヒーを頼んでいる
   },
   async handle(handlerInput) {
     const values = getSynonymValues(handlerInput, ['milk', 'sugar'])
@@ -164,7 +162,7 @@ exports.handler = skillBuilder
     ExitHandler,
     SessionEndedRequest,
     HelpIntent,
-    DiagnosisRequestIntent,
+    CoffeeRequestIntent,
     MilkAndSugarRequestIntent,
     FallbackHandler,
     UnhandledIntent,

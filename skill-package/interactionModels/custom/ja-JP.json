@@ -16,7 +16,7 @@
                   "samples": []
               },
               {
-                  "name": "DiagnosisRequestIntent",
+                  "name": "CoffeeRequestIntent",
                   "slots": [
                       {
                           "name": "coffee",

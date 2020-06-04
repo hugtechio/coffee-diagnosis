@@ -41,7 +41,7 @@ module.exports = {
         }
 
     },
-    diagnosisRequest: (responseBuilder, session) => {
+    coffeeRequestIntent: (responseBuilder, session) => {
         const index = {
             coffee: 0,
             milk: 1,
@@ -50,35 +50,19 @@ module.exports = {
         console.log(session)
         if (session[index.coffee] && !session[index.milk] && !session[index.sugar]) {
             // スッキリしたのが好きかも？と予想
-            return response(responseBuilder, {
-                speak: 'スッキリしたコーヒーがお好きなんですか？ お砂糖かミルクは入れますか？',
-                reprompt: 'お砂糖かミルクは入れたりしますか？',
-                shouldEndSession: false
-            })
+            return ''
         }
         if (session[index.coffee] && session[index.milk] && !session[index.sugar]) {
             // マイルドなやつがが好きかも？と予想
-            return response(responseBuilder, {
-                speak: '少しマイルドなコーヒーがお気に入りですか？ お砂糖は入れますか？',
-                reprompt: 'お砂糖は入れますか？',
-                shouldEndSession: false
-            })
+            return ''
         }
         if (session[index.coffee] && session[index.milk] && !session[index.sugar]) {
             // 甘くてスイートなやつが好きかも？と予想
-            return response(responseBuilder, {
-                speak: '甘いコーヒーがお好き何ですか？ ミルクは入れますか？',
-                reprompt: 'ミルクは入れますか？',
-                shouldEndSession: false
-            })
+            return ''
         }
         if (session[index.coffee] && session[index.milk] && session[index.sugar]) {
             // 全部一度に言った
-            return response(responseBuilder, {
-                speak: `${decision[session[index.coffee]]}。ご来店ありがとうございました。またお越しください`,
-                reprompt: '',
-                shouldEndSession: true
-            })
+            return ''
         }
     },
     milkAndSugarRequest: (responseBuilder, session) => {
