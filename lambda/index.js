@@ -41,17 +41,9 @@ function getPersistenceAdapter(tableName) {
   });
 }
 
+// Synonym でマップされた値をとる
 function getSynonymValues(handlerInput, index) {
-  const values = index.map(
-    key => {
-      try {
-        return Alexa.getSlot(handlerInput.requestEnvelope, key).resolutions.resolutionsPerAuthority[0].values[0].value.name
-      } catch (e) {
-        console.log(e)
-      }
-    }
-  )
-  return values
+  return [] 
 }
 
 const LaunchRequest = {
