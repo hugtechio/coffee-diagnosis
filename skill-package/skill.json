@@ -1,0 +1,30 @@
+{
+  "manifest": {
+    "publishingInformation": {
+      "locales": {
+        "ja-JP": {
+          "summary": "コーヒー診断。好きなコーヒーを教えるとあなたの性格をこたえます。",
+          "examplePhrases": [
+            "アレクサ、コーヒー診断を開いて",
+            "アレクサ、コーヒー診断を開いて、好きなコーヒーはエスプレッソです",
+            "アレクサ、コーヒー診断を開いて、カフェラテを診断して"
+          ],
+          "name": "コーヒー性格診断",
+          "description": "好きなコーヒーを伝えると、あなたの性格を診断してくれるスキルです。 "
+        }
+      },
+      "isAvailableWorldwide": true,
+      "testingInstructions": "アレクサ、コーヒー性格診断を開いて",
+      "category": "GAMES",
+      "distributionCountries": []
+    },
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "uri": "arn:aws:lambda:us-east-1:623357820778:function:ask-coffee-diagnosis-default-sk-AlexaSkillFunction-WRWFXTWPXVK2"
+        }
+      }
+    },
+    "manifestVersion": "1.0"
+  }
+}

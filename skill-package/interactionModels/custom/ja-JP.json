@@ -1,0 +1,158 @@
+{
+  "interactionModel": {
+      "languageModel": {
+          "invocationName": "朝のコーヒーで性格診断",
+          "intents": [
+              {
+                  "name": "AMAZON.CancelIntent",
+                  "samples": []
+              },
+              {
+                  "name": "AMAZON.HelpIntent",
+                  "samples": []
+              },
+              {
+                  "name": "AMAZON.StopIntent",
+                  "samples": []
+              },
+              {
+                  "name": "DiagnosisRequestIntent",
+                  "slots": [
+                      {
+                          "name": "coffee",
+                          "type": "KIND_OF_COFFEE"
+                      },
+                      {
+                          "name": "withSugar",
+                          "type": "KIND_OF_SUGAR"
+                      },
+                      {
+                          "name": "withMilk",
+                          "type": "KIND_OF_MILK"
+                      }
+                  ],
+                  "samples": [
+                      "{coffee}",
+                      "{coffee} に {withMilk} を入れて飲むのが好き",
+                      "{coffee} に {withMilk} と {withSugar}",
+                      "{coffee} に {withSugar} が好き",
+                      "{coffee} と {withMilk} が好き"
+                  ]
+              },
+              {
+                  "name": "MilkAndSugarRequestIntent",
+                  "slots": [
+                      {
+                          "name": "sugar",
+                          "type": "KIND_OF_SUGAR"
+                      },
+                      {
+                          "name": "milk",
+                          "type": "KIND_OF_MILK"
+                      }
+                  ],
+                  "samples": [
+                      "{milk} を入れて飲むのが好き",
+                      "{milk} と {sugar}",
+                      "{milk} と {sugar} 両方",
+                      "{sugar} だけ入れるのが好き",
+                      "{milk} だけ入れるのが好き",
+                      "{milk}",
+                      "{sugar}",
+                      "両方入れます"
+                  ]
+              },
+              {
+                  "name": "AMAZON.NavigateHomeIntent",
+                  "samples": []
+              }
+          ],
+          "types": [
+              {
+                  "name": "KIND_OF_COFFEE",
+                  "values": [
+                      {
+                          "id": "espresso",
+                          "name": {
+                              "value": "エスプレッソ",
+                              "synonyms": [
+                                  "ダブル"
+                              ]
+                          }
+                      },
+                      {
+                          "id": "blend",
+                          "name": {
+                              "value": "ブレンドコーヒー",
+                              "synonyms": [
+                                  "ブレンド"
+                              ]
+                          }
+                      },
+                      {
+                          "id": "decafe",
+                          "name": {
+                              "value": "デカフェ"
+                          }
+                      },
+                      {
+                          "id": "flavor_late",
+                          "name": {
+                              "value": "フレーバーラテ",
+                              "synonyms": [
+                                  "ラテ",
+                                  "カフェラテ"
+                              ]
+                          }
+                      },
+                      {
+                          "id": "ice",
+                          "name": {
+                              "value": "アイスコーヒー",
+                              "synonyms": [
+                                  "アイス"
+                              ]
+                          }
+                      }
+                  ]
+              },
+              {
+                  "name": "KIND_OF_SUGAR",
+                  "values": [
+                      {
+                          "id": "SUGAR",
+                          "name": {
+                              "value": "砂糖",
+                              "synonyms": [
+                                  "黒砂糖",
+                                  "メイプルシュガー",
+                                  "上白糖",
+                                  "砂糖",
+                                  "ブラウンシュガー"
+                              ]
+                          }
+                      }
+                  ]
+              },
+              {
+                  "name": "KIND_OF_MILK",
+                  "values": [
+                      {
+                          "id": "MILK",
+                          "name": {
+                              "value": "ミルク",
+                              "synonyms": [
+                                  "牛乳",
+                                  "スキムミルク",
+                                  "低脂肪牛乳",
+                                  "ミルク",
+                                  "クリープ"
+                              ]
+                          }
+                      }
+                  ]
+              }
+          ]
+      }
+  }
+}
