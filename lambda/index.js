@@ -1,5 +1,5 @@
 const Alexa = require('ask-sdk');
-const ddbAdapter = require('ask-sdk-dynamodb-persistence-adapter'); // included in ask-sdk
+const ddbAdapter = require('ask-sdk-dynamodb-persistence-adapter');
 const talk = require('./talk')
 
 let storage = null

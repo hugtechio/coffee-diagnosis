@@ -25,6 +25,7 @@
     "ask-sdk": "^2.6.0",
     "ask-sdk-s3-persistence-adapter": "^2.6.0",
     "i18next": "^10.5.0",
-    "i18next-sprintf-postprocessor": "^0.2.2"
+    "i18next-sprintf-postprocessor": "^0.2.2",
+    "jest": "^26.0.1"
   }
 }
