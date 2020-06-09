@@ -52,7 +52,7 @@ function getPersistenceAdapter(tableName) {
 }
 
 // Synonym で定義したidをキーとして扱いたいので、slotの構造から直接取る。
-// コーヒーは 種類も含めて値として撮りたいが、砂糖とミルクは種類関係なく、「砂糖」と「ミルク」として扱いたい。
+// コーヒーは 種類を値として扱いたいが、砂糖とミルクは種類を無視して、「砂糖」と「ミルク」として扱いたい。
 function getSynonymValues(handlerInput, index) {
   const ret = {}
   index.forEach(
