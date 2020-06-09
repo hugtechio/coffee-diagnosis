@@ -3,12 +3,15 @@ const ddbAdapter = require('ask-sdk-dynamodb-persistence-adapter');
 const talk = require('./talk')
 
 let storage = null
-let session = null
 
-const INDEX = {
-  coffee: 0,
-  milk: 1,
-  sugar: 2
+// Session Data Definition
+let session = {
+  // Skill can do diagnosis when all attributes was collected.
+  diagnosisAttributes: {
+    coffee: '',
+    withMilk: '',
+    withSugar: ''
+  }
 }
 
 const RequestInterceptor = {
@@ -17,17 +20,22 @@ const RequestInterceptor = {
     storage = await attributesManager.getPersistentAttributes() || {};
     session = attributesManager.getSessionAttributes();
 
-    if (Object.keys(session).length === 0) {
-      session = {}
-      attributesManager.setSessionAttributes(session)      
+    try {
+      if (Object.keys(session).length === 0) {
+        attributesManager.setSessionAttributes(session)      
+      }
+    } catch (error) {
+      console.log(error)
+      attributesManager.setSessionAttributes(session)  
     }
-    console.log(session)
+    console.log('storage:', storage)
+    console.log('session:', session)
   }
 };
 
 const ResponseInterceptor = {
   async process(handlerInput) {
-    storage.visit = 1
+    storage.visit += 1
     const { attributesManager } = handlerInput;
     await attributesManager.savePersistentAttributes(storage);
     attributesManager.setSessionAttributes(session);
@@ -42,16 +50,18 @@ function getPersistenceAdapter(tableName) {
 }
 
 function getSynonymValues(handlerInput, index) {
-  const values = index.map(
+  const ret = {}
+  index.forEach(
     key => {
       try {
-        return Alexa.getSlot(handlerInput.requestEnvelope, key).resolutions.resolutionsPerAuthority[0].values[0].value.name
+        const value = Alexa.getSlot(handlerInput.requestEnvelope, key).resolutions.resolutionsPerAuthority[0].values[0].value.id
+        ret[key] = value
       } catch (e) {
-        console.log(e)
+        console.log('not exist slot:', key, e)
       }
     }
   )
-  return values
+  return ret
 }
 
 const LaunchRequest = {
@@ -108,11 +118,12 @@ const DiagnosisRequestIntent = {
     return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest' 
       && Alexa.getIntentName(handlerInput.requestEnvelope) === 'DiagnosisRequestIntent'
 
-      // coffeeを頼んでない状態
-      && !session.diagnosisAttributes[INDEX.coffee]
+      // [シチュエーション] コーヒーがオーダーされてない 
+      && !session.diagnosisAttributes || !session.diagnosisAttributes.coffee
   },
   async handle(handlerInput) {
     session.diagnosisAttributes = getSynonymValues(handlerInput, ['coffee', 'withMilk', 'withSugar'])
+    console.log('slot values:', session.diagnosisAttributes)
     return talk.diagnosisRequest(handlerInput.responseBuilder, session.diagnosisAttributes)
   }
 };
@@ -121,14 +132,14 @@ const MilkAndSugarRequestIntent = {
   canHandle(handlerInput) {
     return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest' 
       && Alexa.getIntentName(handlerInput.requestEnvelope) === 'MilkAndSugarRequestIntent'
-      && session.diagnosisAttributes[INDEX.coffee]
+      // [シチュエーション] ユーザーはコーヒーに砂糖がミルクを入れるか聞かれている
+      && session.diagnosisAttributes.coffee
   },
   async handle(handlerInput) {
-    const values = getSynonymValues(handlerInput, ['milk', 'sugar'])
-
-    // Situationを更新
-    session.diagnosisAttributes[1] = values[0]
-    session.diagnosisAttributes[2] = values[1]
+    const values = getSynonymValues(handlerInput, ['withMilk', 'withSugar'])
+    Object.keys(values).forEach(key => {
+      session.diagnosisAttributes[key] = values[key]
+    })
     return talk.milkAndSugarRequest(handlerInput.responseBuilder, session.diagnosisAttributes) 
   }
 };
@@ -156,7 +167,6 @@ const FallbackHandler = {
 };
 
 const skillBuilder = Alexa.SkillBuilders.custom();
-
 exports.handler = skillBuilder
   .withPersistenceAdapter(getPersistenceAdapter('AlexaCoffeeDiagnosis'))
   .addRequestHandlers(
