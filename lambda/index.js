@@ -4,9 +4,8 @@ const talk = require('./talk')
 
 let storage = null
 
-// Session Data Definition
+// セッションに保存するデータ構造の定義
 let session = {
-  // Skill can do diagnosis when all attributes was collected.
   diagnosisAttributes: {
     coffee: '',
     withMilk: '',
@@ -14,6 +13,8 @@ let session = {
   }
 }
 
+// PersistentAttributesとSessionAttributesはHandlerが処理される前に必ずあるようにしたいので、
+// Interceptor に実装
 const RequestInterceptor = {
   async process(handlerInput) {
     const { attributesManager } = handlerInput;
@@ -33,6 +34,7 @@ const RequestInterceptor = {
   }
 };
 
+// Attributesの保存は、handlerが呼ばれたあとの共通処理で実装(=ResponseInterceptorss)
 const ResponseInterceptor = {
   async process(handlerInput) {
     storage.visit += 1
@@ -49,6 +51,8 @@ function getPersistenceAdapter(tableName) {
   });
 }
 
+// Synonym で定義したidをキーとして扱いたいので、slotの構造から直接取る。
+// コーヒーは 種類も含めて値として撮りたいが、砂糖とミルクは種類関係なく、「砂糖」と「ミルク」として扱いたい。
 function getSynonymValues(handlerInput, index) {
   const ret = {}
   index.forEach(

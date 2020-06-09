@@ -1,3 +1,4 @@
+// レスポンス組み立て
 const response = (builder, data) => {
     return builder
         .speak(data.speak)
@@ -6,6 +7,8 @@ const response = (builder, data) => {
         .getResponse()
 }
 
+// 性格診断結果テーブル
+// Keyの値は、Slotのidに揃えてある
 const character = {
     black: {
         coffee: `ブラックコーヒーが好きなあなたは、コーヒーそのものの味を楽しみたい人。そんなあなたは無駄なことはしない主義で、仕事も定時でおわらせたい人。`,
@@ -41,11 +44,14 @@ const character = {
     }
 }
 
+//　聞き返すときのリスト
 const question = {
     flavor_late: `フレーバーラテがお好きなんですね。お砂糖かお好みのシロップはありますか？`,
     blend: 'スッキリしたコーヒーがお好きなんですか？ お砂糖かミルクは入れたりしますか？',
 }
 
+// インテントと対になるように設計。SessionAttributesを必要なら使ってメッセージを組み立てる。
+// Keyの値は、Slotのidに揃えてある
 module.exports = {
     launch: (responseBuilder, storage) => {
         if (Object.keys(storage).length === 0) {
