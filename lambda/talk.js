@@ -43,8 +43,9 @@ const character = {
 
 const question = {
     flavor_late: `フレーバーラテがお好きなんですね。お砂糖かお好みのシロップはありますか？`,
-    blend: 'スッキリしたコーヒーがお好きなんですか？ お砂糖かミルクは入れたりますか？',
+    blend: 'スッキリしたコーヒーがお好きなんですか？ お砂糖かミルクは入れたりしますか？',
 }
+
 module.exports = {
     launch: (responseBuilder, storage) => {
         if (Object.keys(storage).length === 0) {

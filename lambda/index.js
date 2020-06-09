@@ -54,7 +54,7 @@ function getSynonymValues(handlerInput, index) {
   index.forEach(
     key => {
       try {
-        const value = Alexa.getSlot(handlerInput.requestEnvelope, key).resolutions.resolutionsPerAuthority[0].values[0].value.id
+        const value = Alexa.getSlot(handlerInput.requestEnvelope, key).resolutions.resolutionsPerAuthority[0].values[0].value.id.toLowerCase()
         ret[key] = value
       } catch (e) {
         console.log('not exist slot:', key, e)
